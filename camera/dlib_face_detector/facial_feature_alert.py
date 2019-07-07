@@ -1,3 +1,4 @@
+#! /usr/bin/python
 # USAGE
 # python facial_landmarks.py
 
