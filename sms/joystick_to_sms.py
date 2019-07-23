@@ -4,8 +4,8 @@ from sense_hat import SenseHat, ACTION_PRESSED
 
 sense = SenseHat()
 # Your Account Sid and Auth Token from twilio.com/console
-account_sid = 'AC9ea25b7cee64dc123f4f231fb05a009f'
-auth_token = '9d13181de78353724603394bc472a8f3'
+account_sid = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+auth_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 client = Client(account_sid, auth_token)
 
 
@@ -18,7 +18,7 @@ def pushed_up(event):
     message = client.messages.create(
                               body='Hello there from raspi!',
                               from_='+17377779787',
-                              to='+15127751780'
+                              to='+XXXXXXXXXXXXXXXXXXXXX'
                           )
 
     print(message.sid)
