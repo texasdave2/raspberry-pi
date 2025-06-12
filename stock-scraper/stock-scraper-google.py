@@ -1,0 +1,72 @@
+import requests
+from bs4 import BeautifulSoup
+import csv
+from pathlib import Path
+
+
+
+endpoints = ["gainers"]
+#endpoints = ["gainers", "losers", "indexes", "most-active", "cryptocurrencies"]
+
+
+from datetime import datetime
+
+def write_to_csv(data, filename_prefix):
+    if type(data) != list:
+        data = [data]
+    print("Writing to CSV...")
+
+    # Generate timestamp in the format: year-month-day-hour-minute
+    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    filename = f"google-finance-{filename_prefix}-{timestamp}.csv"
+
+    mode = "w"
+    if Path(filename).exists():
+        mode = "a"
+    print("Writing data to CSV File...")
+    with open(filename, mode, newline='', encoding='utf-8') as file:
+#        writer = csv.DictWriter(file, fieldnames=data[0].keys())
+        writer = csv.DictWriter(file, fieldnames=["ticker", "name", "percent_gain"])
+        if mode == "w":
+            writer.writeheader()
+        writer.writerows(data)
+    print(f"Successfully wrote {filename} to CSV...")
+
+
+def scrape_page(endpoint: str):
+    response = requests.get(f"https://www.google.com/finance/markets/{endpoint}")
+    soup = BeautifulSoup(response.text, "html.parser")
+    list_items = soup.find_all("li")
+    scraped_data = []
+
+    for item in list_items:
+        try:
+            divs = item.find_all("div")
+            ticker = divs[3].text.strip()
+            name = divs[6].text.strip()
+
+            # Find the percentage gain container
+            percent_container = item.find("div", class_="NN5r3b")
+            percent_divs = percent_container.find_all("div", class_="JwB6zf") if percent_container else []
+            percent_gain = percent_divs[0].text.strip() if percent_divs else None
+
+            if ticker and name and percent_gain:
+                scraped_data.append({
+                    "ticker": ticker,
+                    "name": name,
+                    "percent_gain": percent_gain
+                })
+
+            if len(scraped_data) >= 20:
+                break
+        except Exception:
+            continue
+
+    write_to_csv(scraped_data, endpoint)
+
+
+if __name__ == "__main__":
+
+    for endpoint in endpoints:
+        print("---------------------")
+        scrape_page(endpoint)
