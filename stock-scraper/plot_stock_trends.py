@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-df = pd.read_csv("stock_data_log.csv")
+df = pd.read_csv("data_log.csv")
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 df['percent_gain'] = df['percent_gain'].astype(float)
 

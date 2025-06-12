@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime
 
 endpoint = "gainers"
-output_file = "stock_data_log.csv"
+output_file = "data_log.csv"
 
 def scrape_stock_data():
     response = requests.get(f"https://www.google.com/finance/markets/{endpoint}")
