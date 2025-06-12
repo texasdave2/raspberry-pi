@@ -2,7 +2,7 @@ import time
 from datetime import datetime, timedelta
 from stock_scraper import scrape_stock_data, append_to_csv  # assuming you saved the scraper functions in stock_scraper.py
 
-output_file = "stock_data_log.csv"
+output_file = "data_log.csv"
 duration_minutes = 60
 interval_seconds = 180  # 3 minutes
 end_time = datetime.now() + timedelta(minutes=duration_minutes)

@@ -15,7 +15,7 @@ for ticker in pivot_df.columns:
 plt.title("Stock Percent Gain Over Time")
 plt.xlabel("Time")
 plt.ylabel("Percent Gain")
-plt.legend(title="Ticker")
+#plt.legend(title="Ticker")
 plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
